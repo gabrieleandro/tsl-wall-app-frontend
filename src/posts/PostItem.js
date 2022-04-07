@@ -10,7 +10,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 export default function PostItem(post) {
-
   return (
     <Card sx={{ m: 2, mt: 0 }}>
       <CardHeader

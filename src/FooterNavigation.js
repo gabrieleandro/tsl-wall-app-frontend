@@ -26,7 +26,7 @@ export default function FooterNavigation() {
         />
         <BottomNavigationAction
           component={Link}
-          to="/singin"
+          to="/signin"
           label="Profile"
           icon={<PersonIcon />}
         />

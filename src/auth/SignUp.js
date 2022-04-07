@@ -36,8 +36,8 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Sign up to start posting wall messages.
+          <Typography component="h1" variant="h5" align="center">
+            Sign up to start posting messages.
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -94,7 +94,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link component={RouterLink} to="/singin" variant="body2">
+                <Link component={RouterLink} to="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

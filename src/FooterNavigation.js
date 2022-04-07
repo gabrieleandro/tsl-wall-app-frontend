@@ -2,8 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function FooterNavigation() {
   const [value, setValue] = React.useState(0);
@@ -17,8 +17,8 @@ export default function FooterNavigation() {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="Wall" icon={<RestoreIcon />} />
-        <BottomNavigationAction label="Profile" icon={<LocationOnIcon />} />
+        <BottomNavigationAction label="Wall" icon={<NewspaperIcon />} />
+        <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
       </BottomNavigation>
     </Box>
   );

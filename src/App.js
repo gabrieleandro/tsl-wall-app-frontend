@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
@@ -30,10 +30,20 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const theme = createTheme();
 
 export default function App() {
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/posts/')
+    .then(response => response.json())
+    .then( data => {
+      setCards(data.results)
+    })
+  }, [])
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -57,15 +67,15 @@ export default function App() {
       </AppBar>
       <Box
           sx={{
-            marginTop: 10,
+            marginTop: 9,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
         {
-          cards.map((card) => (
-            <PostItem />
+          cards.map((post) => (
+            <PostItem {...post} />
           ))
         }
       </Box>

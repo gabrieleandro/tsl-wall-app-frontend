@@ -5,23 +5,18 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { blueGrey, lightBlue } from '@mui/material/colors';
+import { blueGrey } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
-export default function PostItem() {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+export default function PostItem(post) {
 
   return (
     <Card sx={{ m: 2, mt: 0 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">
-            G
+            {post.author.username.split('')[0].toUpperCase()}
           </Avatar>
         }
         action={
@@ -29,16 +24,12 @@ export default function PostItem() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Gabriel Leandro"
-        subheader="April 04, 2022"
+        title={post.author.username}
+        subheader={post.published_at}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Iusto laboriosam enim quam unde itaque dicta assumenda nihil 
-          consequatur dolor veritatis est commodi esse voluptatibus 
-          harum veniam quo obcaecati, vitae amet?
-          🎉 
+          {post.body}
         </Typography>
       </CardContent>
     </Card>

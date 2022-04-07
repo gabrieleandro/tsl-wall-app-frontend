@@ -11,18 +11,13 @@ export default function PostCollection(props) {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error!</p>
 
-    return (<Box
-        sx={{
-            marginTop: 9,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        }}
-        >
-        {
-        data.results.map((post) => (
-            <PostItem key={post.id} {...post} />
-        ))
-        }
-    </Box>)
+    return (
+        <Box sx={{ marginTop: 9 }}>
+            {
+                data.results.map((post) => (
+                    <PostItem key={post.id} {...post} />
+                ))
+            }
+        </Box>
+    )
 }

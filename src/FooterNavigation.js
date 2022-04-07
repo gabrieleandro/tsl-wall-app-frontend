@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -17,8 +18,18 @@ export default function FooterNavigation() {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="Wall" icon={<NewspaperIcon />} />
-        <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
+        <BottomNavigationAction
+          component={Link}
+          to="/"
+          label="Wall"
+          icon={<NewspaperIcon />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/singin"
+          label="Profile"
+          icon={<PersonIcon />}
+        />
       </BottomNavigation>
     </Box>
   );

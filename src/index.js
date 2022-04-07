@@ -1,14 +1,27 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import PostCollection from './posts/PostCollection'
+import SingIn from './auth/SingIn'
+import SingUp from './auth/SingUp'
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
+ 
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<PostCollection />} />
+          <Route path="singin" element={<SingIn />} />
+          <Route path="singup" element={<SingUp />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
  
 );

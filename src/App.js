@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -19,21 +20,21 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar position="fixed">
-          <Toolbar>
-            <img
-              src={tslLogo}
-              alt="TSL"
-              width="32"
-              height="32"
-            />
-            <Typography
-              sx={{ ml: 2 }}
-              variant="h6"
-              color="inherit"
-              noWrap
-            >
-              TSL Wall App
-            </Typography>
+          <Toolbar variant="dense">
+              <img
+                src={tslLogo}
+                alt="TSL"
+                width="32"
+                height="32"
+              />
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1, ml: 2 }}
+              >
+                TSL Wall App
+              </Typography>
+            <Button component={Link} to="/signin" color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
         <Outlet />

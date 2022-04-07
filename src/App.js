@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -6,24 +6,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import tslLogo from "./assets/tsl.png";
-
-
 import FooterNavigation from './FooterNavigation'
 
 const theme = createTheme();
 
 export default function App() {
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/api/posts/')
-    .then(response => response.json())
-    .then( data => {
-      setCards(data.results)
-    })
-  }, [])
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

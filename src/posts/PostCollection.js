@@ -5,7 +5,7 @@ import PostItem from './PostItem'
 
 export default function PostCollection(props) {
     const [{ data, loading, error }, refetch] = useAxios(
-        'http://localhost:8000/api/posts/'
+        '/posts/'
     )
 
     if (loading) return <p>Loading...</p>

@@ -1,10 +1,9 @@
-import * as React from 'react';
+import { React } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,10 +11,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthProvider } from './contexts/AuthContext';
 import tslLogo from "./assets/tsl.png";
 import FooterNavigation from './FooterNavigation'
+import LoginButton from './LoginButton'
 
 const theme = createTheme();
 
-export default function App() {
+export default function App(props) {
   return (
     <CookiesProvider>
       <AuthProvider>
@@ -36,7 +36,7 @@ export default function App() {
                 >
                   TSL Wall App
                 </Typography>
-              <Button component={Link} to="/signin" color="inherit">Login</Button>
+                <LoginButton />
             </Toolbar>
           </AppBar>
           <Outlet />

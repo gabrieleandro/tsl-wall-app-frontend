@@ -3,16 +3,16 @@ import { useCookies } from "react-cookie";
 import { useNavigate, } from "react-router-dom"
 import useAxios from 'axios-hooks'
 import jwt_decode from "jwt-decode";
+import axios from '../services/axios'
 
 export const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState({})
-    const isAuthenticated = !!user;
     const [cookies, setCookie, removeCookie] = useCookies(['tslwallapp.token']);
     const navigate = useNavigate();
     const [{ data, loading, error }, auth_user] = useAxios({
-        url: 'http://localhost:8000/api/token/',
+        url: '/token/',
         method: 'POST',
     }, { manual: true })
 
@@ -36,8 +36,14 @@ export function AuthProvider({ children }) {
         return navigate('/');
     }
 
+    function signOut() {
+        removeCookie('tslwallapp.token');
+        setUser({})
+        return navigate('/signin');
+    }
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+        <AuthContext.Provider value={{ user, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     )

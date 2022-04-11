@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { useContext } from 'react';
+import axios from 'axios'
 import { Link as RouterLink } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
 import Button from '@mui/material/Button';
@@ -10,10 +11,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AuthContext } from '../contexts/AuthContext';
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignInPage() {
   const { control, handleSubmit} = useForm({
     defaultValues: {
       username: '',
@@ -21,7 +23,11 @@ export default function SignIn() {
     }
   })
 
-  const handleSignIn = data => console.log(data);
+  const { signIn } = useContext(AuthContext)
+
+  async function handleSignIn(data) {
+    await signIn(data)
+  }
 
   return (
     <ThemeProvider theme={theme}>

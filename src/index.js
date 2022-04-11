@@ -5,8 +5,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PostCollection from './posts/PostCollection'
-import SignIn from './auth/SignIn'
-import SignUp from './auth/SignUp'
+import SignInPage from './auth/SignInPage'
+import SignUpPage from './auth/SignUpPage'
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -17,8 +17,8 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<PostCollection />} />
-          <Route path="signin" element={<SignIn />} />
-          <Route path="signup" element={<SignUp />} />
+          <Route path="signin" element={<SignInPage />} />
+          <Route path="signup" element={<SignUpPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

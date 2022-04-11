@@ -18,7 +18,7 @@ export default function PostItem(post) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">
-            {post.author.username.split('')[0].toUpperCase()}
+            {post.author.split('')[0].toUpperCase()}
           </Avatar>
         }
         action={
@@ -28,7 +28,7 @@ export default function PostItem(post) {
         }
         title={
           <Typography>
-            {post.author.username}
+            {post.author}
           </Typography>
         }
         subheader={

@@ -1,20 +1,22 @@
-import * as React from 'react';
-import { Link as RouterLink} from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
+import { React, useContext, useEffect} from 'react';
+import { Link as RouterLink, useNavigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AuthContext } from '../contexts/AuthContext'
 
 const theme = createTheme();
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, signIn } = useContext(AuthContext)
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -23,6 +25,10 @@ export default function SignUpPage() {
       password: data.get('password'),
     });
   };
+
+  useEffect(() => {
+    if (isAuthenticated) return navigate('/')
+  })
 
   return (
     <ThemeProvider theme={theme}>

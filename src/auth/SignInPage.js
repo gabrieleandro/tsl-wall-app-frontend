@@ -13,7 +13,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const { user, signIn } = useContext(AuthContext)
+  const { user, isAuthenticated, signIn } = useContext(AuthContext)
 
   const { control, handleSubmit} = useForm({
     defaultValues: {
@@ -27,7 +27,7 @@ export default function SignInPage() {
   }
 
   useEffect(() => {
-    if (user.isAuthenticated) return navigate('/')
+    if (isAuthenticated) return navigate('/')
   })
 
   return (

@@ -15,7 +15,7 @@ const theme = createTheme();
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const { user, signIn } = useContext(AuthContext)
+  const { user, isAuthenticated, signIn } = useContext(AuthContext)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,7 +27,7 @@ export default function SignUpPage() {
   };
 
   useEffect(() => {
-    if (user.isAuthenticated) return navigate('/')
+    if (isAuthenticated) return navigate('/')
   })
 
   return (

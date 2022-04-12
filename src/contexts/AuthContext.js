@@ -48,14 +48,14 @@ export function AuthProvider({ children }) {
             return navigate('/');
         } catch(error) {
             enqueueSnackbar(error?.response.data.detail, {variant: 'error'});
-            console.error('signIn error:', error?.response.data.detail);
         }
     }
 
     function signOut() {
         removeCookie('tslwallapp.token', {path:'/'})
         setUser()
-        return navigate('/signin');
+        enqueueSnackbar('You have been logged out successfully.', {variant: 'success'});
+        return navigate('/');
     }
 
     return (

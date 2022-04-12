@@ -6,9 +6,7 @@ import { AuthContext } from './contexts/AuthContext';
 export default function LoginButton() {
     const { isAuthenticated, signOut } = useContext(AuthContext);
     
-    let loginButton = <Button component={Link} to="/signin" color="inherit">Login</Button>;
-    if(isAuthenticated === true) {
-        loginButton = <Button onClick={() => signOut()} color="inherit">Logout</Button>;
-    }
-    return loginButton;
+    const logInButton = <Button component={Link} to="/signin" color="inherit">Sign in</Button>;
+    const logOutButton = <Button onClick={() => signOut()} color="inherit">Sign out</Button>;
+    return isAuthenticated === true ? logOutButton : logInButton;
 }

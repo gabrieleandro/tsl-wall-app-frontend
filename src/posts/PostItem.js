@@ -15,7 +15,7 @@ export default function PostItem(props) {
   const { id, author, body, published_at, user, isAuthenticated } = props
 
   return (
-    <Card sx={{ m: 2, mt: 0 }}>
+    <Card variant="outlined" sx={{ m: 2, mt: 0 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">

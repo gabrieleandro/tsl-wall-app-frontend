@@ -10,57 +10,83 @@ export const AuthContext = createContext({});
 
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState()
-    const isAuthenticated = !!user
-    const [cookies, setCookie, removeCookie] = useCookies(['tslwallapp.token']);
-    const navigate = useNavigate();
-    const [{ data, loading, error }, auth_user] = useAxios({
-        url: '/token/',
-        method: 'POST',
-    }, { manual: true })
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [user, setUser] = useState()
+  const isAuthenticated = !!user
+  const [cookies, setCookie, removeCookie] = useCookies(['tslwallapp.token']);
+  const navigate = useNavigate();
+  const [{ data, loading, error }, auth_user] = useAxios({
+    url: '/token/',
+    method: 'POST',
+  }, { manual: true })
+  const [{ getData, getLoading, getError }, register] = useAxios({
+    url: '/users/',
+    method: 'POST',
+  }, { manual: true })
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-    useEffect(() => {
-        if (cookies['tslwallapp.token']) {
-            const { user_id } = jwt_decode(cookies['tslwallapp.token'])
-            setUser({
-                id: user_id,
-            })
-        }
-    })
-
-    async function signIn({username, password}) {
-        try {
-            const {data: {access: token}} = await auth_user({data: {
-                username,
-                password
-            }})
-
-            setCookie('tslwallapp.token', token, {
-                path: '/',
-                maxAge: 60 * 60 * 1,
-                sameSite: 'strict'
-            })
-            const { user_id } = jwt_decode(token)
-            setUser({
-                id: user_id,
-            })
-            return navigate('/');
-        } catch(error) {
-            enqueueSnackbar(error?.response.data.detail, {variant: 'error'});
-        }
+  useEffect(() => {
+    if (cookies['tslwallapp.token']) {
+      const { user_id } = jwt_decode(cookies['tslwallapp.token'])
+      setUser({
+        id: user_id,
+      })
     }
+  })
 
-    function signOut() {
-        removeCookie('tslwallapp.token', {path:'/'})
-        setUser()
-        enqueueSnackbar('You have been logged out successfully.', {variant: 'success'});
-        return navigate('/');
+  async function registerUser({
+    email,
+    username,
+    password,
+    confirm_password}) {
+    try {
+      const {data} = await register({data: {
+        email,
+        username,
+        password,
+        confirm_password
+      }})
+      enqueueSnackbar('Account was created successfully! Now you can sign in and start posting.', {variant: 'success'});
+      return navigate('/signin');
+    } catch(error) {
+      Object.entries(error.response.data).forEach(([key, value]) => {
+        enqueueSnackbar(value, {variant: 'error'});
+      });
     }
+  }
 
-    return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
-            {children}
-        </AuthContext.Provider>
-    )
+  async function signIn({username, password}) {
+    try {
+      const {data: {access: token}} = await auth_user({data: {
+        username,
+        password
+      }})
+
+      setCookie('tslwallapp.token', token, {
+        path: '/',
+        maxAge: 60 * 60 * 1,
+        sameSite: 'strict'
+      })
+      const { user_id } = jwt_decode(token)
+      setUser({
+        id: user_id,
+      })
+
+      return navigate('/');
+    } catch(error) {
+      enqueueSnackbar(error?.response.data.detail, {variant: 'error'});
+    }
+  }
+
+  function signOut() {
+    removeCookie('tslwallapp.token', {path:'/'})
+    setUser()
+    enqueueSnackbar('You have been logged out successfully.', {variant: 'success'});
+    return navigate('/');
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, registerUser, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

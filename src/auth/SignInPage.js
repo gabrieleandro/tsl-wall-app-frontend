@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -13,7 +12,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const { user, isAuthenticated, signIn } = useContext(AuthContext)
+  const { isAuthenticated, signIn } = useContext(AuthContext)
 
   const { control, handleSubmit} = useForm({
     defaultValues: {
@@ -28,7 +27,7 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (isAuthenticated) return navigate('/')
-  })
+  },[isAuthenticated])
 
   return (
       <Container component="main" maxWidth="xs">
@@ -44,7 +43,7 @@ export default function SignInPage() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit(handleSignIn)} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit(handleSignIn)} sx={{ mt: 1 }} noValidate>
             <Controller
               name="username"
               control={control}
@@ -60,15 +59,15 @@ export default function SignInPage() {
                 }
               }}
               render={({ field, fieldState: {error} }) => (<TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Username"
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                  autoFocus
-                />)}
+                {...field}
+                margin="normal"
+                required
+                fullWidth
+                label="Username"
+                error={!!error}
+                helperText={error ? error.message : null}
+                autoFocus
+              />)}
             />
             <Controller
               name="password"
@@ -81,16 +80,16 @@ export default function SignInPage() {
                 }
               }}
               render={({ field, fieldState: {error} }) => (<TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Password"
-                  type="password"
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                  autoComplete="current-password"
-                />)}
+                {...field}
+                margin="normal"
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                error={!!error}
+                helperText={error ? error.message : null}
+                autoComplete="current-password"
+              />)}
             />
             <Button
               type="submit"
@@ -100,13 +99,11 @@ export default function SignInPage() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link component={RouterLink} to="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            <Container align="center">
+              <Link component={RouterLink} to="/signup" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Container>
           </Box>
         </Box>
       </Container>

@@ -11,33 +11,34 @@ import Link from '@mui/material/Link';
 import { blueGrey } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export default function PostItem(post) {
+export default function PostItem(props) {
+  const { id, author, body, published_at, user, isAuthenticated } = props
 
   return (
     <Card sx={{ m: 2, mt: 0 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">
-            {post.author.split('')[0].toUpperCase()}
+            {author.split('')[0].toUpperCase()}
           </Avatar>
         }
-        action={
+        action={isAuthenticated && (
           <IconButton aria-label="settings">
             <MoreVertIcon />
-          </IconButton>
+          </IconButton>)
         }
         title={
           <Typography>
-            {post.author}
+            {author}
           </Typography>
         }
         subheader={
-          <Link to={`/post/${post.id}`} variant="caption" color="text.secondary">{moment(post.published_at).fromNow()}</Link>
+          <Link to={`/post/${id}`} variant="caption" color="text.secondary">{moment(published_at).fromNow()}</Link>
         }
       />
       <CardContent>
         <Typography variant="body1" color="text.secondary">
-          {post.body}
+          {body}
         </Typography>
       </CardContent>
     </Card>

@@ -4,7 +4,7 @@ import { CookiesProvider } from 'react-cookie';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,7 +12,7 @@ import { SnackbarProvider } from 'notistack';
 import { AuthProvider } from './contexts/AuthContext';
 import tslLogo from "./assets/tsl.png";
 import FooterNavigation from './FooterNavigation'
-import LoginButton from './LoginButton'
+import AuthedGuestNav from './AuthedGuestNav'
 
 const theme = createTheme();
 
@@ -25,6 +25,14 @@ export default function App(props) {
             <CssBaseline />
             <AppBar position="fixed">
               <Toolbar variant="dense" sx={{maxWidth: 1140,width: "100%", margin: "0 auto",}}>
+                <Stack
+                  component={Link}
+                  to="/"
+                  spacing={2}
+                  direction="row"
+                  color="inherit"
+                  sx={{ flexGrow: 1, ml: 2, textDecoration: 'none' }}
+                >
                   <img
                     src={tslLogo}
                     alt="TSL"
@@ -33,12 +41,11 @@ export default function App(props) {
                   />
                   <Typography
                     variant="h6"
-                    component="div"
-                    sx={{ flexGrow: 1, ml: 2 }}
                   >
                     TSL Wall App
                   </Typography>
-                  <LoginButton />
+                </Stack>
+                <AuthedGuestNav />
               </Toolbar>
             </AppBar>
             <Box sx={{maxWidth: 1140,width: "100%", margin: "0 auto",}}>

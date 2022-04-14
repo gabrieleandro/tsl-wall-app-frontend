@@ -7,9 +7,20 @@ const axios = Axios.create({
   timeout: 1000,
 })
 
-// if (token) {
-//   console.log(token)
-//   axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-// }
+// request interceptor to add token to request headers
+axios.interceptors.request.use(
+  async (config) => {
+    const cookies = new Cookies()
+    const token = cookies.get('tslwallapp.token')
+
+    if (token) {
+      config.headers = {
+        authorization: `Bearer ${token}`
+      };
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 configure({ axios })

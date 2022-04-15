@@ -36,14 +36,18 @@ export function AuthProvider({ children }) {
   }, [user])
 
   async function registerUser({
-    email,
+    first_name,
+    last_name,
     username,
+    email,
     password,
     confirm_password}) {
     try {
       const {data} = await register({data: {
-        email,
+        first_name,
+        last_name,
         username,
+        email,
         password,
         confirm_password
       }})

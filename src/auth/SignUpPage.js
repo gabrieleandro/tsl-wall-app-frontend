@@ -1,11 +1,12 @@
 import { React, useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate} from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -18,6 +19,8 @@ export default function SignUpPage() {
   const { isAuthenticated, registerUser } = useContext(AuthContext)
   const { control, handleSubmit} = useForm({
     defaultValues: {
+      first_name: '',
+      last_name: '',
       username: '',
       email: '',
       password: '',
@@ -49,93 +52,133 @@ export default function SignUpPage() {
           <Typography component="h1" variant="h5" align="center">
             Sign up to start posting messages.
           </Typography>
-          <Box component="form" onSubmit={handleSubmit(handleRegister)} sx={{ mt: 3 }} noValidate>
-            <Controller
-              name="username"
-              control={control}
-              rules={{
-                required: 'Username is required.',
-                minLength: {
-                  value: 6,
-                  message: 'Please enter at least 6 characters.'
-                },
-                maxLength: {
-                  value: 30,
-                  message: 'Please enter no more than 30 characters.'
-                }
-              }}
-              render={({ field, fieldState: {error} }) => (<TextField
-                {...field}
-                margin="normal"
-                required
-                fullWidth
-                label="Username"
-                error={!!error}
-                helperText={error? error.message : null}
-                autoFocus
-              />)}
-            />
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: 'Email is required.',
-              }}
-              render={({ field, fieldState: {error} }) => (<TextField
-                {...field}
-                margin="normal"
-                required
-                fullWidth
-                type="email"
-                label="Email"
-                error={!!error}
-                helperText={error ? error.message : null}
-              />)}
-            />
-            <Controller
-              name="password"
-              control={control}
-              rules={{
-                required: 'Password is required.',
-                minLength: {
-                  value: 6,
-                  message: 'Please enter at least 6 characters.'
-                }
-              }}
-              render={({ field, fieldState: {error} }) => (<TextField
-                {...field}
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                error={!!error}
-                helperText={error ? error.message : null}
-                autoComplete="password"
-              />)}
-            />
-            <Controller
-              name="confirm_password"
-              control={control}
-              rules={{
-                required: 'Password is required.',
-                minLength: {
-                  value: 6,
-                  message: 'Please enter at least 6 characters.'
-                }
-              }}
-              render={({ field, fieldState: {error} }) => (<TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Confirm Password"
-                  type="password"
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                  autoComplete="confirm_password"
-                />)}
-            />
+          <Box component="form" sx={{mt: 2}} onSubmit={handleSubmit(handleRegister)} noValidate>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="first_name"
+                    control={control}
+                    rules={{
+                      required: 'First name is required.',
+                    }}
+                    render={({ field, fieldState: {error} }) => (<TextField
+                      {...field}
+                      required
+                      fullWidth
+                      label="First name"
+                      error={!!error}
+                      helperText={error? error.message : null}
+                      autoFocus
+                    />)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="last_name"
+                    control={control}
+                    rules={{
+                      required: 'Last name is required.',
+                    }}
+                    render={({ field, fieldState: {error} }) => (<TextField
+                      {...field}
+                      required
+                      fullWidth
+                      label="Last name"
+                      error={!!error}
+                      helperText={error? error.message : null}
+                    />)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="username"
+                    control={control}
+                    rules={{
+                      required: 'Username is required.',
+                      minLength: {
+                        value: 6,
+                        message: 'Please enter at least 6 characters.'
+                      },
+                      maxLength: {
+                        value: 30,
+                        message: 'Please enter no more than 30 characters.'
+                      }
+                    }}
+                    render={({ field, fieldState: {error} }) => (<TextField
+                      {...field}
+                      required
+                      fullWidth
+                      label="Username"
+                      error={!!error}
+                      helperText={error? error.message : null}
+                    />)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                      required: 'Email is required.',
+                    }}
+                    render={({ field, fieldState: {error} }) => (<TextField
+                      {...field}
+                      required
+                      fullWidth
+                      type="email"
+                      label="Email"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                    />)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="password"
+                    control={control}
+                    rules={{
+                      required: 'Password is required.',
+                      minLength: {
+                        value: 6,
+                        message: 'Please enter at least 6 characters.'
+                      }
+                    }}
+                    render={({ field, fieldState: {error} }) => (<TextField
+                      {...field}
+                      required
+                      fullWidth
+                      label="Password"
+                      type="password"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      autoComplete="password"
+                    />)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    name="confirm_password"
+                    control={control}
+                    rules={{
+                      required: 'Password is required.',
+                      minLength: {
+                        value: 6,
+                        message: 'Please enter at least 6 characters.'
+                      }
+                    }}
+                    render={({ field, fieldState: {error} }) => (<TextField
+                        {...field}
+                        required
+                        fullWidth
+                        label="Confirm Password"
+                        type="password"
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        autoComplete="confirm_password"
+                      />)}
+                  />
+                </Grid>
+              </Grid>
             <Button
               type="submit"
               fullWidth

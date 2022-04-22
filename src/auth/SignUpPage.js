@@ -1,6 +1,8 @@
 import { React, useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate} from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
+import useAxios from 'axios-hooks'
+import { useSnackbar } from "notistack";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,9 +16,17 @@ import { AuthContext } from '../contexts/AuthContext'
 
 const theme = createTheme();
 
+
 export default function SignUpPage() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const { isAuthenticated, registerUser } = useContext(AuthContext)
+  const { isAuthenticated } = useContext(AuthContext)
+
+  const [{ data, loading, error }, submitRegister] = useAxios({
+    url: '/users/',
+    method: 'POST',
+  }, { manual: true });
+
   const { control, handleSubmit} = useForm({
     defaultValues: {
       first_name: '',
@@ -28,8 +38,29 @@ export default function SignUpPage() {
     }
   })
 
-  async function handleRegister(data) {
-    await registerUser(data)
+  async function handleRegisterUser({
+    first_name,
+    last_name,
+    username,
+    email,
+    password,
+    confirm_password}) {
+    try {
+      const {data} = await submitRegister({data: {
+        first_name,
+        last_name,
+        username,
+        email,
+        password,
+        confirm_password
+      }})
+      enqueueSnackbar('Account was created successfully! Now you can sign in and start posting.', {variant: 'success'});
+      return navigate('/signin');
+    } catch(error) {
+      Object.entries(error?.response.data).forEach(([key, value]) => {
+        enqueueSnackbar(value, {variant: 'error'});
+      });
+    }
   }
 
   useEffect(() => {
@@ -52,7 +83,7 @@ export default function SignUpPage() {
           <Typography component="h1" variant="h5" align="center">
             Sign up to start posting messages.
           </Typography>
-          <Box component="form" sx={{mt: 2}} onSubmit={handleSubmit(handleRegister)} noValidate>
+          <Box component="form" sx={{mt: 2}} onSubmit={handleSubmit(handleRegisterUser)} noValidate>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Controller

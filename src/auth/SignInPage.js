@@ -1,6 +1,9 @@
 import { useContext, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
+import useAxios from 'axios-hooks'
+import { useSnackbar } from "notistack";
+import jwtDecode from "jwt-decode";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -10,11 +13,19 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { AuthContext } from '../contexts/AuthContext';
+import { useAuthCookies } from '../hooks/useAuthCookies'
 
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, signIn } = useContext(AuthContext)
+  const { isAuthenticated, setUser } = useContext(AuthContext)
+  const [cookies, setCookie, removeCookie] = useAuthCookies();
+  const { enqueueSnackbar } = useSnackbar();
+ 
+  const [{ data, loading, error }, signIn] = useAxios({
+    url: '/token/',
+    method: 'POST',
+  }, { manual: true });
 
   const { control, handleSubmit} = useForm({
     defaultValues: {
@@ -23,8 +34,27 @@ export default function SignInPage() {
     }
   })
 
-  async function handleSignIn(data) {
-    await signIn(data)
+  async function handleSignIn({username, password}) {
+    try {
+      const {data: {access: token}} = await signIn({data: {
+        username,
+        password
+      }})
+
+      setCookie('tslwallapp.token', token, {
+        path: '/',
+        maxAge: 60 * 60 * 1,
+        sameSite: 'strict'
+      })
+      const { user_id: userId } = jwtDecode(token)
+      setUser({
+        id: userId,
+      })
+
+      return navigate('/');
+    } catch(error) {
+      enqueueSnackbar(error?.response.data.detail, {variant: 'error'});
+    }
   }
 
   useEffect(() => {

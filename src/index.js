@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
+import './services/axios';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PostCollection from './posts/PostCollection'

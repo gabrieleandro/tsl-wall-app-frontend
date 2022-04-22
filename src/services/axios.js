@@ -3,7 +3,7 @@ import { Cookies } from 'react-cookie'
 import Axios from 'axios'
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   timeout: 1000,
 })
 

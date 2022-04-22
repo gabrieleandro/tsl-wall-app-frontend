@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { useCookies } from "react-cookie";
 import { useForm, Controller } from "react-hook-form";
+import { useSnackbar } from "notistack";
 import useAxios from 'axios-hooks'
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
@@ -13,12 +13,11 @@ import { AuthContext } from '../contexts/AuthContext'
 
 export default function PostForm(props) {
   const { user, isAuthenticated } = useContext(AuthContext)
-  const [{ data, loading, error }, refetch] = useAxios({
+  const { enqueueSnackbar } = useSnackbar();
+  const [{ data, loading, error }, submitPost] = useAxios({
     url: '/posts/',
     method: 'POST',
   }, {manual: true})
-
- 
 
   const { control, handleSubmit} = useForm({
     defaultValues: {
@@ -27,17 +26,18 @@ export default function PostForm(props) {
   })
 
   async function sendMessage({body}) {
-    await refetch({data: {body}})
-  }
-
-  async function handleSendMessage(data) {
-    await sendMessage(data)
+    try {
+      await submitPost({data: {body}})
+      enqueueSnackbar('Post sent.', {variant: 'success'});
+    } catch(error) {
+      enqueueSnackbar(error, {variant: 'error'});
+    }
   }
 
   return (
     <Box sx={{ marginTop: 8 }}>
       {isAuthenticated && (
-        <Card variant="outlined" component="form" onSubmit={handleSubmit(handleSendMessage)}
+        <Card variant="outlined" component="form" onSubmit={handleSubmit(sendMessage)}
         noValidate sx={{m: 2, mb: 4}}>
           <CardContent>
           <Typography
@@ -70,7 +70,16 @@ export default function PostForm(props) {
             />
             <Grid container spacing={1}>
               <Grid item xs>
-                <Button type="submit" variant="contained" fullWidth>Send message</Button>
+                <LoadingButton
+                  type="submit"
+                  loading={loading}
+                  loadingIndicator="Sending..."
+                  disabled={loading}
+                  variant="contained"
+                  fullWidth
+                >
+                  Send message
+                </LoadingButton>
               </Grid>
             </Grid>            
             </CardContent>

@@ -1,14 +1,14 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import useAxios from 'axios-hooks'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import { AuthContext } from '../contexts/AuthContext'
 import PostItem from './PostItem'
 import PostForm from './PostForm'
 
+
 export default function PostCollection(props) {
-  const [{ data, loading, error }, refetch] = useAxios('/posts/')
+  const [{ data, loading, error }, refetch] = useAxios('posts/')
   const { user, isAuthenticated } = useContext(AuthContext)
 
 

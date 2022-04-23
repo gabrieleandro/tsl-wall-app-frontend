@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import PostCollection from './posts/PostCollection'
 import SignInPage from './auth/SignInPage'
 import SignUpPage from './auth/SignUpPage'
+import Profile from './auth/Profile'
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -20,6 +21,7 @@ root.render(
           <Route index element={<PostCollection />} />
           <Route path="signin" element={<SignInPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="me" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>

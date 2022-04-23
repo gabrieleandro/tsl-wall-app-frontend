@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { AuthContext } from '../contexts/AuthContext'
 
-export default function PostForm(props) {
+export default function PostForm({refreshPosts}) {
   const { user, isAuthenticated } = useContext(AuthContext)
   const { enqueueSnackbar } = useSnackbar();
   const [{ data, loading, error }, submitPost] = useAxios({
@@ -25,10 +25,11 @@ export default function PostForm(props) {
     }
   })
 
-  async function sendMessage({body}) {
+  async function sendPost({body}) {
     try {
       await submitPost({data: {body}})
       enqueueSnackbar('Post sent.', {variant: 'success'});
+      refreshPosts()
     } catch(error) {
       enqueueSnackbar(error, {variant: 'error'});
     }
@@ -37,7 +38,7 @@ export default function PostForm(props) {
   return (
     <Box sx={{ marginTop: 8 }}>
       {isAuthenticated && (
-        <Card variant="outlined" component="form" onSubmit={handleSubmit(sendMessage)}
+        <Card variant="outlined" component="form" onSubmit={handleSubmit(sendPost)}
         noValidate sx={{m: 2, mb: 4}}>
           <CardContent>
           <Typography

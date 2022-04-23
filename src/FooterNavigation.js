@@ -5,22 +5,19 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import PersonIcon from '@mui/icons-material/Person';
-import CreateIcon from '@mui/icons-material/Create';
 import { AuthContext } from './contexts/AuthContext';
 
-export default function FooterNavigation() {
-  const [value, setValue] = React.useState(0);
+export default function FooterNavigation({value, setValue}) {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
-    isAuthenticated && <Box
+    <Box
       elevation={3}
       sx={{ 
         position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
-        display: { xs: 'block', md: 'none' }
       }}
     >
       <BottomNavigation
@@ -34,21 +31,17 @@ export default function FooterNavigation() {
           component={Link}
           to="/"
           label="Wall"
+          value="/"
           icon={<NewspaperIcon />}
         />
         <BottomNavigationAction
           component={Link}
-          to="/"
-          label="Write a post"
-          icon={<CreateIcon />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/signin"
+          to={isAuthenticated ? '/me' : '/signin'}
           label="Profile"
+          value="/me"
           icon={<PersonIcon />}
         />
       </BottomNavigation>
     </Box>
-  );
+  )
 }

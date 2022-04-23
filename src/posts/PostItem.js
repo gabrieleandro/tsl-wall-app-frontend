@@ -12,10 +12,9 @@ import Link from '@mui/material/Link';
 import { blueGrey } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSnackbar } from "notistack";
-
-export default function PostItem(props) {
-  const { id, author, body, published_at, user } = props
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+import { stringAvatar } from '../helpers.js'
+export default function PostItem({ id, author, body, published_at, user, refreshPosts }) {
+  const { enqueueSnackbar } = useSnackbar();
 
   const [{ delData, delLoading, delError }, deletePost] = useAxios({
     url: `/posts/${id}/`,
@@ -26,7 +25,7 @@ export default function PostItem(props) {
     try {
       await deletePost()
       enqueueSnackbar('Post removed successfully.', {variant: 'success'});
- 
+      refreshPosts()
     } catch(error)  {
       
     }
@@ -36,9 +35,10 @@ export default function PostItem(props) {
     <Card variant="outlined" sx={{ m: 2, mt: 0 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">
-            {author.username.split('')[0].toUpperCase()}
-          </Avatar>
+          <Avatar
+            sx={{ bgcolor: blueGrey[500] }}
+            {...stringAvatar(`${author.first_name} ${author.last_name}`)}
+          />
         }
         action={user && user.id === author.id && (
           <IconButton

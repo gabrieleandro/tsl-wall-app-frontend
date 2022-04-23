@@ -81,7 +81,7 @@ export default function SignUpPage() {
           }}
         >
           <Typography component="h1" variant="h5" align="center">
-            Sign up to start posting messages.
+            Sign up to start posting.
           </Typography>
           <Box component="form" sx={{mt: 2}} onSubmit={handleSubmit(handleRegisterUser)} noValidate>
             <Grid container spacing={2}>

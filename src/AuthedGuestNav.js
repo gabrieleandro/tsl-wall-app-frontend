@@ -17,18 +17,7 @@ export default function AuthedGuestNav() {
   );
   const authedNav = (
     <Stack spacing={1} direction="row">
-      <Button sx={{display: { xs: 'none', md: 'inline-block' }}} component={Link} size="small" to="/" color="inherit">Wall</Button>
-      <IconButton
-        sx={{display: { xs: 'none', md: 'inline-block' }}}
-        component={Link}
-        to="/"
-        size="small"
-        color="inherit"
-        variant="outlined"
-      >
-        <AddIcon fontSize="small" />
-      </IconButton>
-      <Button onClick={() => signOut()} size="small" variant="outlined" color="inherit">Sign out</Button>
+      <Button onClick={() => signOut()} size="small" color="inherit">Sign out</Button>
     </Stack>
   );
   return isAuthenticated === true ? authedNav : guestNav;

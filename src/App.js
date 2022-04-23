@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 import AppBar from '@mui/material/AppBar';
@@ -17,6 +17,8 @@ import AuthedGuestNav from './AuthedGuestNav'
 const theme = createTheme();
 
 export default function App(props) {
+  const [value, setValue] = useState((typeof window !== "undefined") ? window.location.pathname : null);
+
   return (
     <SnackbarProvider>
       <CookiesProvider>
@@ -59,7 +61,7 @@ export default function App(props) {
                 {'.'}
               </Typography>
             </Box>
-            <FooterNavigation />
+            <FooterNavigation value={value} setValue={setValue} />
             {/* End footer */}
           </ThemeProvider>
         </AuthProvider>

@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate, } from "react-router-dom"
 import { useSnackbar } from "notistack";
+import jwtDecode from "jwt-decode";
 import { useAuthCookies } from '../hooks/useAuthCookies'
 
 export const AuthContext = createContext({});
@@ -11,6 +12,16 @@ export function AuthProvider({ children }) {
   const [cookies, setCookie, removeCookie] = useAuthCookies();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(cookies['tslwallapp.token']) {
+      const token = cookies['tslwallapp.token']
+      const { user_id: userId } = jwtDecode(token)
+      setUser({
+        id: userId,
+      })
+    }    
+  }, [cookies])
 
   function signOut() {
     removeCookie('tslwallapp.token', {path:'/'})

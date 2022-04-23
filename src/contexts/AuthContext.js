@@ -14,8 +14,8 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(cookies['tslwallapp.token']) {
-      const token = cookies['tslwallapp.token']
+    if(cookies[process.env.REACT_APP_COOKIE_NAME]) {
+      const token = cookies[process.env.REACT_APP_COOKIE_NAME]
       const { user_id: userId } = jwtDecode(token)
       setUser({
         id: userId,
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
   }, [cookies])
 
   function signOut() {
-    removeCookie('tslwallapp.token', {path:'/'})
+    removeCookie(process.env.REACT_APP_COOKIE_NAME, {path:'/'})
     setUser()
     enqueueSnackbar('You have been logged out successfully.', {variant: 'success'});
     return navigate('/');

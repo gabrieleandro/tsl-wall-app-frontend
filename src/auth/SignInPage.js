@@ -41,7 +41,7 @@ export default function SignInPage() {
         password
       }})
 
-      setCookie('tslwallapp.token', token, {
+      setCookie(process.env.REACT_APP_COOKIE_NAME, token, {
         path: '/',
         maxAge: 60 * 60 * 1,
         sameSite: 'strict'

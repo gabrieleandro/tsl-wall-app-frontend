@@ -11,7 +11,7 @@ const axios = Axios.create({
 axios.interceptors.request.use(
   async (config) => {
     const cookies = new Cookies()
-    const token = cookies.get('tslwallapp.token')
+    const token = cookies.get(process.env.REACT_APP_COOKIE_NAME)
 
     if (token) {
       config.headers = {

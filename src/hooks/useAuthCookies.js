@@ -1,5 +1,5 @@
 import { useCookies } from "react-cookie";
 
 export function useAuthCookies() {
-    return useCookies(['tslwallapp.token']);
+    return useCookies([process.env.REACT_APP_COOKIE_NAME]);
 }

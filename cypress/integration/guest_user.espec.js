@@ -1,6 +1,6 @@
 describe('Test filling sign in form', function() {
   it('Fill form with valid data', function() {
-    cy.visit('')
+    cy.visit('/')
     cy.contains('Wall messages')
       .should('exist')
     cy.wait(1000)

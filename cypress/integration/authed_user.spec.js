@@ -107,6 +107,22 @@ describe('Test authed user', function() {
     cy.get('p').should('contain', BODY_MESSAGE_CONTENT)
   })
 
+  it('Can delete a post', function() {
+    cy.server()
+    cy.route('POST', '/api/token/').as('postSignin')
+
+    cy.get(USERNAME_FIELD).type(USER_USERNAME)
+    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
+    cy.contains('button', 'Sign In').click()
+
+    cy.wait('@postSignin')
+
+    cy.get('[aria-label=remove]').first().click()
+    cy.contains('Post removed successfully.')
+    cy.contains(BODY_MESSAGE_CONTENT)
+      .should('not.exist')
+  })
+
   it('Does not post with empty body', function() {
     cy.server()
     cy.route('POST', '/api/token/').as('postSignin')

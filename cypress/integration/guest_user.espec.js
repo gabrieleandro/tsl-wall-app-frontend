@@ -1,47 +1,92 @@
-describe('Test filling sign in form', function() {
-  it('Fill form with valid data', function() {
+const COOKIE_NAME = Cypress.env('REACT_APP_COOKIE_NAME')
+
+const RANDOM_PREFIX = Math.floor(Math.random() * 1000)
+
+const FIRST_NAME_FIELD = '[name=first_name]'
+const LAST_NAME_FIELD = '[name=last_name]'
+const USERNAME_FIELD = '[name=username]'
+const EMAIL_FIELD = '[name=email]'
+const PASSWORD_FIELD = '[name=password]'
+const CONFIRM_PASSWORD_FIELD = '[name=confirm_password]'
+
+const USER_FIRST_NAME = `Cypress.${RANDOM_PREFIX}`
+const USER_LAST_NAME = `Tester`
+const USER_USERNAME = `cypress.tester.${RANDOM_PREFIX}`
+const USER_PASSWORD = 'valid.password'
+const USER_EMAIL = `cytester.${RANDOM_PREFIX}@tester.com`
+
+const BODY_MESSAGE_FIELD = '[name=body]'
+
+
+describe('Test guest user', function() {
+  it('Can see post page', function() {
     cy.visit('/')
     cy.contains('Wall messages')
       .should('exist')
-    cy.wait(1000)
-
-    cy.visit('signin')
-    cy.get('[name=username]')
-    .should('exist')
-    cy.wait(1000)
-
-    cy.visit('me')
-    cy.contains('Joined in')
+    cy.get(BODY_MESSAGE_FIELD)
       .should('not.exist')
   })
 
-  it('Sign up an user and redirect to sign in page', function() {
+  it('Can sign up and sign in', function() {
     cy.visit('signup')
+    cy.server()
+    cy.route('POST', '/api/users/').as('postSignup')
 
-    cy.get('[name=first_name]')
-      .type('Cypress')
-      .should('have.value', 'Cypress')
-
-    cy.get('[name=last_name]')
-      .type('Tester')
-      .should('have.value', 'Tester')
-
-    cy.get('[name=username]')
-      .type('cypress.tester')
-      .should('have.value', 'cypress.tester')
-
-    cy.get('[name=email]')
-    .type('cytester@tester.com')
-    .should('have.value', 'cytester@tester.com')
-
-    cy.get('[name=password]')
-      .type('tester.123')
-      .should('have.value', 'tester.123')
-
-    cy.get('[name=confirm_password]')
-      .type('tester.123')
-      .should('have.value', 'tester.123')
+    cy.get(FIRST_NAME_FIELD).type(USER_FIRST_NAME)
+    cy.get(LAST_NAME_FIELD).type(USER_LAST_NAME)
+    cy.get(USERNAME_FIELD).type(USER_USERNAME)
+    cy.get(EMAIL_FIELD).type(USER_EMAIL)
+    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
+    cy.get(CONFIRM_PASSWORD_FIELD).type(USER_PASSWORD)
 
     cy.get('button[type=submit]').click()
+    cy.wait('@postSignup')
+
+    cy.contains('Account was created successfully! Now you can sign in and start posting.')
+
+    cy.location('pathname')
+      .should('equal', '/signin')
+
+    cy.route('POST', '/api/token/').as('postSignin')
+
+    cy.get(USERNAME_FIELD).type(USER_USERNAME)
+    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
+    cy.contains('button', 'Sign In').click()
+
+    cy.wait('@postSignin')
+
+    cy.location('pathname')
+      .should('equal', '/')
+
+    cy.get('textarea[name=body]')
+      .should('have.attr', 'placeholder', "What's on your mind?")
+
+    cy.getCookie(COOKIE_NAME)
+      .should('exist')
+  })
+
+  it('Does not sign up with Email or username if already exist', () => {
+    cy.visit('signup')
+    cy.server()
+    cy.route('POST', '/api/users/').as('postSignup')
+
+    cy.get(FIRST_NAME_FIELD).type(USER_FIRST_NAME)
+    cy.get(LAST_NAME_FIELD).type(USER_LAST_NAME)
+    cy.get(USERNAME_FIELD).type(USER_USERNAME)
+    cy.get(EMAIL_FIELD).type(USER_EMAIL)
+    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
+    cy.get(CONFIRM_PASSWORD_FIELD).type(USER_PASSWORD)
+
+    cy.get('button[type=submit]').click()
+    cy.wait('@postSignup')
+
+    cy.contains('A user with that username already exists.')
+    cy.contains('A user with that email already exists.')
+  })
+
+  it('Trying to access profile redirects to /', function() {
+    cy.visit('me')
+    cy.location('pathname')
+      .should('equal', '/')
   })
 })

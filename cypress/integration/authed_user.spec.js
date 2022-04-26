@@ -37,32 +37,6 @@ describe('Create User Tester', function(){
 
     cy.contains('Account was created successfully! Now you can sign in and start posting.')
   })
-})
-
-describe('Test authed user', function() {
-  beforeEach(function () {
-    cy.visit('/signin')
-  })
-  
-  it('Successfully signs in', () => {
-    cy.server()
-    cy.route('POST', '/api/token/').as('postSignin')
-
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
-    cy.contains('button', 'Sign In').click()
-
-    cy.wait('@postSignin')
-
-    cy.location('pathname')
-      .should('equal', '/')
-
-    cy.get('textarea[name=body]')
-      .should('have.attr', 'placeholder', "What's on your mind?")
-
-    cy.getCookie(COOKIE_NAME)
-      .should('exist')
-  })
 
   it('Does not sign in with invalid credentials', () => {
     cy.get(USERNAME_FIELD).type(USER_USERNAME)
@@ -71,17 +45,23 @@ describe('Test authed user', function() {
 
     cy.contains('No active account found with the given credentials')
   })
+})
+
+describe('Test authed user', function() {
+  beforeEach(function () {
+    cy.login(USER_USERNAME, USER_PASSWORD)
+    cy.visit('/')
+  })
+  
+  it('Successfully signs in', () => {
+    cy.get('textarea[name=body]')
+      .should('have.attr', 'placeholder', "What's on your mind?")
+
+    cy.getCookie(COOKIE_NAME)
+      .should('exist')
+  })
 
   it('Can access profile', () => {
-    cy.server()
-    cy.route('POST', '/api/token/').as('postSignin')
-
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
-    cy.contains('button', 'Sign In').click()
-
-    cy.wait('@postSignin')
-
     cy.contains('Profile').click()
     cy.url().should('include', 'me')
     cy.contains(USER_EMAIL)
@@ -89,15 +69,6 @@ describe('Test authed user', function() {
   })
 
   it('Can post', function() {
-    cy.server()
-    cy.route('POST', '/api/token/').as('postSignin')
-
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
-    cy.contains('button', 'Sign In').click()
-
-    cy.wait('@postSignin')
-
     cy.route('POST', '/api/posts/').as('postSubmitPost')
     cy.get(BODY_MESSAGE_FIELD).type(BODY_MESSAGE_CONTENT)
     .get('[type=submit]').click()
@@ -108,15 +79,6 @@ describe('Test authed user', function() {
   })
 
   it('Can delete a post', function() {
-    cy.server()
-    cy.route('POST', '/api/token/').as('postSignin')
-
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
-    cy.contains('button', 'Sign In').click()
-
-    cy.wait('@postSignin')
-
     cy.get('[aria-label=remove]').first().click()
     cy.contains('Post removed successfully.')
     cy.contains(BODY_MESSAGE_CONTENT)
@@ -124,29 +86,11 @@ describe('Test authed user', function() {
   })
 
   it('Does not post with empty body', function() {
-    cy.server()
-    cy.route('POST', '/api/token/').as('postSignin')
-
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
-    cy.contains('button', 'Sign In').click()
-
-    cy.wait('@postSignin')
-
     cy.get('[type=submit]').click()
     cy.get('p').should('contain', 'Please, write a message.')
   })
 
   it('Can sign out', function() {
-    cy.server()
-    cy.route('POST', '/api/token/').as('postSignin')
-
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
-    cy.contains('button', 'Sign In').click()
-
-    cy.wait('@postSignin')
-
     cy.get('header').contains('Sign out').click()
     cy.contains('You have been logged out successfully.')
       .should('exist')

@@ -4,6 +4,5 @@
     "REACT_APP_COOKIE_NAME": "tslwallapp.token"
   },
   "baseUrl": "http://localhost:3000",
-  "pluginsFile": false,
-  "supportFile": false
+  "pluginsFile": false
 }

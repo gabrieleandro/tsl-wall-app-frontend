@@ -12,20 +12,31 @@ Wall App is an application that allows users to register, login, and write on a 
 - [Testing](#testing)
 
 ## Installation
-Clone this repo and install the requirements.
+
+Clone this repo.
 
 ```bash
 git clone git@github.com:gabrieleandro/tsl-wall-app-frontend.git
 cd tsl-wall-app-frontend
+```
+
+Install the requirements
+
+```bash
 yarn install
+```
+or
+```bash
+npm install
 ```
 
 ## Environment variables
-Create a .env file with
+
+Copy our .evn.example file (included in the repo) or create a .env file with 
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:8000/api
-REACT_APP_COOKIE_NAME=tslwallapp.token
+REACT_APP_API_BASE_URL=
+REACT_APP_COOKIE_NAME=
 ```
 
 ## Usage
@@ -35,7 +46,10 @@ Run the using the following command:
 ```bash
 yarn start
 ```
-
+or
+```bash
+npm start
+```
 
 ## Testing
 
@@ -43,5 +57,9 @@ Test using [Cypress](https://docs.cypress.io/) is a next generation front end te
 
 
 ```bash
-yarn run cypress open 
+yarn run cypress:open 
+```
+or
+```bash
+npm run cypress:open
 ```

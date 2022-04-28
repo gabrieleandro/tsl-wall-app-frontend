@@ -1,6 +1,6 @@
 const COOKIE_NAME = Cypress.env('REACT_APP_COOKIE_NAME')
 
-const RANDOM_PREFIX = Math.floor(Math.random() * 1000)
+const RANDOM_PREFIX = Math.floor(Math.random() * 100000)
 
 const FIRST_NAME_FIELD = '[name=first_name]'
 const LAST_NAME_FIELD = '[name=last_name]'
@@ -19,8 +19,8 @@ const BODY_MESSAGE_FIELD = '[name=body]'
 const BODY_MESSAGE_CONTENT = 'Minha postagem.'
 
 
-describe('Create User Tester', function(){
-  it('Successfully create user', () => {
+describe('Register an User', function(){
+  it('Successfully create an user', () => {
     cy.visit('signup')
     cy.server()
     cy.route('POST', '/api/users/').as('postSignup')
@@ -38,12 +38,23 @@ describe('Create User Tester', function(){
     cy.contains('Account was created successfully! Now you can sign in and start posting.')
   })
 
-  it('Does not sign in with invalid credentials', () => {
-    cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(PASSWORD_FIELD).type('wrong.password')
-    cy.contains('button', 'Sign In').click()
+  it('Does not sign up with Email or username if already exist', () => {
+    cy.visit('signup')
+    cy.server()
+    cy.route('POST', '/api/users/').as('postSignup')
 
-    cy.contains('No active account found with the given credentials')
+    cy.get(FIRST_NAME_FIELD).type(USER_FIRST_NAME)
+    cy.get(LAST_NAME_FIELD).type(USER_LAST_NAME)
+    cy.get(USERNAME_FIELD).type(USER_USERNAME)
+    cy.get(EMAIL_FIELD).type(USER_EMAIL)
+    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
+    cy.get(CONFIRM_PASSWORD_FIELD).type(USER_PASSWORD)
+
+    cy.get('button[type=submit]').click()
+    cy.wait('@postSignup')
+
+    cy.contains('A user with that username already exists.')
+    cy.contains('A user with that email already exists.')
   })
 })
 

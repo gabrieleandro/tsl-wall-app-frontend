@@ -11,7 +11,7 @@ Wall App is an application that allows users to register, login, and write on a 
 - [Usage](#usage)
 - [Testing](#testing)
 
-## Installation
+# Installation
 
 Clone this repo.
 
@@ -30,7 +30,7 @@ or
 npm install
 ```
 
-## Environment variables
+# Environment variables
 
 Copy our .env.example file (included in this repo) or create a .env file with 
 
@@ -39,7 +39,7 @@ REACT_APP_API_BASE_URL=
 REACT_APP_COOKIE_NAME=
 ```
 
-## Usage
+# Usage
 
 Run the using the following command:
 
@@ -51,7 +51,9 @@ or
 npm start
 ```
 
-## Testing
+Now you can access at http://localhost:3000/
+
+# Testing
 
 Test using [Cypress](https://docs.cypress.io/) is a next generation front end testing tool built for the modern web. We address the key pain points developers and QA engineers face when testing modern applications.
 

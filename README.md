@@ -32,7 +32,7 @@ npm install
 
 ## Environment variables
 
-Copy our .evn.example file (included in the repo) or create a .env file with 
+Copy our .env.example file (included in this repo) or create a .env file with 
 
 ```env
 REACT_APP_API_BASE_URL=

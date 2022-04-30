@@ -41,6 +41,8 @@ REACT_APP_COOKIE_NAME=
 
 # Usage
 
+In order to work properly make sure you have the [back-end](https://github.com/gabrieleandro/tsl-wall-app-backend) app running.
+
 Run the using the following command:
 
 ```bash

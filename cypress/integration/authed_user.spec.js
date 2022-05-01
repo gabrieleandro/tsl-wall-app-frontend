@@ -38,7 +38,7 @@ describe('Register an User', function(){
     cy.contains('Account was created successfully! Now you can sign in and start posting.')
   })
 
-  it('Does not sign up with Email or username if already exist', () => {
+  it('Does not sign up with username already exist', () => {
     cy.visit('signup')
     cy.server()
     cy.route('POST', '/api/users/').as('postSignup')
@@ -46,7 +46,7 @@ describe('Register an User', function(){
     cy.get(FIRST_NAME_FIELD).type(USER_FIRST_NAME)
     cy.get(LAST_NAME_FIELD).type(USER_LAST_NAME)
     cy.get(USERNAME_FIELD).type(USER_USERNAME)
-    cy.get(EMAIL_FIELD).type(USER_EMAIL)
+    cy.get(EMAIL_FIELD).type(`${USER_EMAIL}.br`)
     cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
     cy.get(CONFIRM_PASSWORD_FIELD).type(USER_PASSWORD)
 
@@ -54,6 +54,23 @@ describe('Register an User', function(){
     cy.wait('@postSignup')
 
     cy.contains('A user with that username already exists.')
+  })
+
+  it('Does not sign up with email already exist', () => {
+    cy.visit('signup')
+    cy.server()
+    cy.route('POST', '/api/users/').as('postSignup')
+
+    cy.get(FIRST_NAME_FIELD).type(USER_FIRST_NAME)
+    cy.get(LAST_NAME_FIELD).type(USER_LAST_NAME)
+    cy.get(USERNAME_FIELD).type(`${USER_USERNAME}2`)
+    cy.get(EMAIL_FIELD).type(USER_EMAIL)
+    cy.get(PASSWORD_FIELD).type(USER_PASSWORD)
+    cy.get(CONFIRM_PASSWORD_FIELD).type(USER_PASSWORD)
+
+    cy.get('button[type=submit]').click()
+    cy.wait('@postSignup')
+
     cy.contains('A user with that email already exists.')
   })
 })

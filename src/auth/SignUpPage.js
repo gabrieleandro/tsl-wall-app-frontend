@@ -91,6 +91,10 @@ export default function SignUpPage() {
                     control={control}
                     rules={{
                       required: 'First name is required.',
+                      minLength: {
+                        value: 3,
+                        message: 'Please enter at least 3 characters.'
+                      },
                     }}
                     render={({ field, fieldState: {error} }) => (<TextField
                       {...field}
@@ -109,6 +113,10 @@ export default function SignUpPage() {
                     control={control}
                     rules={{
                       required: 'Last name is required.',
+                      minLength: {
+                        value: 3,
+                        message: 'Please enter at least 3 characters.'
+                      },
                     }}
                     render={({ field, fieldState: {error} }) => (<TextField
                       {...field}
@@ -127,8 +135,8 @@ export default function SignUpPage() {
                     rules={{
                       required: 'Username is required.',
                       minLength: {
-                        value: 6,
-                        message: 'Please enter at least 6 characters.'
+                        value: 3,
+                        message: 'Please enter at least 3 characters.'
                       },
                       maxLength: {
                         value: 30,
@@ -170,8 +178,8 @@ export default function SignUpPage() {
                     rules={{
                       required: 'Password is required.',
                       minLength: {
-                        value: 6,
-                        message: 'Please enter at least 6 characters.'
+                        value: 8,
+                        message: 'Please enter at least 8 characters.'
                       }
                     }}
                     render={({ field, fieldState: {error} }) => (<TextField
@@ -193,8 +201,8 @@ export default function SignUpPage() {
                     rules={{
                       required: 'Password is required.',
                       minLength: {
-                        value: 6,
-                        message: 'Please enter at least 6 characters.'
+                        value: 8,
+                        message: 'Please enter at least 8 characters.'
                       }
                     }}
                     render={({ field, fieldState: {error} }) => (<TextField

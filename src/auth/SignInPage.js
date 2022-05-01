@@ -84,8 +84,8 @@ export default function SignInPage() {
                   rules={{
                     required: 'Username is required.',
                     minLength: {
-                      value: 6,
-                      message: 'Please enter at least 6 characters.'
+                      value: 3,
+                      message: 'Please enter at least 3 characters.'
                     },
                     maxLength: {
                       value: 30,
@@ -110,8 +110,8 @@ export default function SignInPage() {
                   rules={{
                     required: 'Password is required.',
                     minLength: {
-                      value: 6,
-                      message: 'Please enter at least 6 characters.'
+                      value: 8,
+                      message: 'Please enter at least 8 characters.'
                     }
                   }}
                   render={({ field, fieldState: {error} }) => (<TextField
